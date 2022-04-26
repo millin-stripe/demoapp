@@ -1,0 +1,38 @@
+<!-- Filters -->
+{{#with (demoConfig)}}
+<form class="hidden lg:block">
+  <h3 class="sr-only">Categories</h3>
+  {{#if pages.products.categoryFilters.show}}
+  <ul role="list" class="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200">
+    {{#each pages.products.categoryFilters.options}}
+    <li>
+      <div class="cursor-default">
+        {{this}}
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  {{#if pages.products.attributeFilters.show}}
+  <div class="border-b border-gray-200 py-6">
+    <h3 class="-my-3 flow-root">
+      <div class="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-900 cursor-default" aria-controls="filter-section-0" aria-expanded="false">
+        {{pages.products.attributeFilters.label}}
+      </div>
+    </h3>
+    <div class="pt-6" id="filter-section-0">
+      <div class="space-y-4">
+        {{#each pages.products.attributeFilters.options}}
+        <div class="flex items-center">
+          <input id="filter-color-0" name="color[]" value="white" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-gray-500 focus:ring-gray-500">
+          <label for="filter-color-0" class="ml-3 text-sm text-gray-600">
+            {{this}}
+          </label>
+        </div>
+      {{/each}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</form>
+{{/with}}

@@ -1,0 +1,37 @@
+{
+  "name": "furni",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run build:css && nodemon app.js",
+    "start": "npm run build:css && node app.js",
+    "setup": "node setup.js",
+    "build:css": "node_modules/.bin/postcss public/css/tailwind.css -o public/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.corp.stripe.com:davidsantoso/furni.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/forms": "^0.3.3",
+    "cookie-session": "^1.4.0",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "morgan": "~1.9.1",
+    "stripe": "^8.174.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.3.2",
+    "nodemon": "^2.0.12",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.2.7"
+  }
+}

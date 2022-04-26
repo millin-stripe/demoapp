@@ -1,0 +1,78 @@
+{{> demo_notice message='You\'ve made a payment! See the <a href="https://dashboard.stripe.com/test/payments" class="text-blurple">Stripe dashboard for details.</a>'}}
+<div class="bg-white">
+  <header class="relative bg-white border-b border-gray-200 text-sm font-medium text-gray-700">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div class="relative flex justify-end sm:justify-center">
+        <div class="absolute left-0 top-1/2 -mt-4">
+        {{#with (demoConfig)}}
+          <span class="sr-only">Logo</span>
+          <img src="{{branding.logo}}" alt="" class="h-8 w-auto">
+        {{/with}}
+        </div>
+        <nav aria-label="Progress" class="hidden sm:block">
+          <ol role="list" class="flex space-x-4">
+            <li class="flex items-center">
+              <div>Cart</div>
+
+              <!-- Heroicon name: solid/chevron-right -->
+              <svg class="w-5 h-5 text-gray-300 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </li>
+
+            <li class="flex items-center">
+              <div aria-current="page">Billing Information</div>
+
+              <!-- Heroicon name: solid/chevron-right -->
+              <svg class="w-5 h-5 text-gray-300 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </li>
+
+            <li class="flex items-center text-gray-700 font-bold">
+              <div>Confirmation</div>
+            </li>
+          </ol>
+        </nav>
+        <p class="sm:hidden">Step 2 of 4</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="lg:min-h-screen lg:overflow-hidden lg:flex lg:flex-row-reverse">
+    <h1 class="sr-only">Confirmation</h1>
+
+    <!-- Success message -->
+    <section aria-labelledby="heading" class="flex-auto overflow-y-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 lg:px-8 lg:pt-0 lg:pb-24">
+      <div class="max-w-lg mx-auto pt-16">
+        <div class="text-4xl text-gray-700 font-bold w-max mx-auto">
+          🛍️ Thanks for your purchase!
+        </div>
+
+        <div class="relative mt-12">
+          <div class="absolute inset-0 flex items-center" aria-hidden="true">
+            <div class="w-full border-t border-gray-200"></div>
+          </div>
+          <div class="relative flex justify-center">
+            <span class="px-4 bg-white text-sm font-medium text-gray-500">
+              Order information
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-10 p-4 border border-gray-300 bg-gray-100 w-full text-center text-gray-700 rounded-md">
+          Payment confirmation: {{ paymentIntent }}
+        </div>
+        <button id="restart-demo-btn" data-accent-color-btn class="mt-4 w-full bg-accent-color border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-color">Restart demo</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  let restartDemoBtn = document.getElementById("restart-demo-btn");
+  restartDemoBtn.addEventListener("click", function(e) {
+    sessionStorage.clear();
+    window.location.href = "/";
+  });
+</script>

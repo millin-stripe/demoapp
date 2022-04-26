@@ -1,0 +1,234 @@
+{{> demo_notice message='Stripe securely captures payment details. Learn about offering <a href="https://stripe.com/docs/payments/payment-methods/overview" class="text-blurple">local payment methods</a>.'}}
+
+<div class="bg-white">
+  <header class="relative bg-white border-b border-gray-200 text-sm font-medium text-gray-700">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div class="relative flex justify-end sm:justify-center">
+        {{#with (demoConfig)}}
+        <a href="/" class="absolute left-0 top-1/2 -mt-4">
+          <span class="sr-only">Logo</span>
+          <img src="{{branding.logo}}" alt="" class="h-8 w-auto">
+        </a>
+        {{/with}}
+        <nav aria-label="Progress" class="hidden sm:block">
+          <ol role="list" class="flex space-x-4">
+            <li class="flex items-center">
+              <a href="/cart">Cart</a>
+
+              <!-- Heroicon name: solid/chevron-right -->
+              <svg class="w-5 h-5 text-gray-300 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </li>
+
+            <li class="flex items-center">
+              <a href="#" aria-current="page" class="text-gray-700 font-bold">Billing Details</a>
+
+              <!-- Heroicon name: solid/chevron-right -->
+              <svg class="w-5 h-5 text-gray-300 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </li>
+
+            <li class="flex items-center text-gray-300">
+              <div>Confirmation</div>
+            </li>
+          </ol>
+        </nav>
+        <p class="sm:hidden">Step 2 of 4</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="lg:min-h-screen lg:overflow-hidden lg:flex lg:flex-row-reverse">
+    <h1 class="sr-only">Checkout</h1>
+
+    <!-- Mobile order summary -->
+    <section aria-labelledby="order-heading" class="bg-gray-50 px-4 py-6 sm:px-6 lg:hidden">
+      <div class="max-w-lg mx-auto">
+        <div class="flex items-center justify-between">
+          <h2 id="order-heading" class="text-lg font-medium text-gray-900">Your Order</h2>
+        </div>
+
+        <div id="disclosure-1">
+          <ul role="list" class="divide-y divide-gray-200 border-b border-gray-200">
+            <!-- HTML is dynamically generated via Javascript based on the cart in localStorage -->
+            {{#each prices}}
+              <li class="flex py-6 space-x-10">
+                {{> checkout_order_summary_item price=this }}
+              </li>
+            {{/each}}
+          </ul>
+
+          <dl class="text-sm font-medium text-gray-500 mt-4 space-y-6">
+            <div class="flex justify-between">
+              <dt>Subtotal</dt>
+              <dd class="text-gray-900">{{ formatCurrency 'en-US' orderSubTotal }}</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt>Taxes</dt>
+              <dd class="text-gray-900">$20.00</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt>Shipping</dt>
+              <dd class="text-gray-900">FREE</dd>
+            </div>
+          </dl>
+        </div>
+
+        <p class="flex items-center justify-between text-sm font-medium text-gray-900 border-t border-gray-200 pt-6 mt-6">
+          <span class="text-base">Total</span>
+          <span class="text-base">{{ formatCurrency 'en-US' orderTotal }}</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Order summary -->
+    <section aria-labelledby="summary-heading" class="hidden bg-gray-50 w-full max-w-md flex-col lg:flex">
+      <h2 id="summary-heading" class="sr-only">Order summary</h2>
+
+      <ul role="list" class="overflow-y-auto divide-y divide-gray-200 px-6">
+        <!-- HTML is dynamically generated via Javascript based on the cart in localStorage -->
+        {{#each prices}}
+          <li class="flex py-6 space-x-6">
+            {{> checkout_order_summary_item price=this }}
+          </li>
+        {{/each}}
+      </ul>
+
+      <div class="sticky bottom-0 flex-none bg-gray-50 border-t border-gray-200 p-6">
+        <dl class="text-sm font-medium text-gray-500 space-y-6">
+          <div class="flex justify-between">
+            <dt>Subtotal</dt>
+            <dd dataclass="text-gray-900">{{ formatCurrency 'en-US' orderSubTotal }}</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt>Taxes</dt>
+            <dd class="text-gray-900">$20.00</dd>
+          </div>
+          <div class="flex justify-between">
+            <dt>Shipping</dt>
+            <dd class="text-gray-900">FREE</dd>
+          </div>
+          <div class="flex items-center justify-between border-t border-gray-200 text-gray-900 pt-6">
+            <dt class="text-base">Total</dt>
+            <dd class="text-base">{{ formatCurrency 'en-US' orderTotal }}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Payment form -->
+    <section aria-labelledby="payment-heading" class="flex-auto overflow-y-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 lg:px-8 lg:pt-0 lg:pb-24">
+      <div class="max-w-lg mx-auto pt-16">
+        <!-- Apple Pay -->
+        <!-- <button type="button" class="w&#45;full flex items&#45;center justify&#45;center bg&#45;black border border&#45;transparent text&#45;white rounded&#45;md py&#45;2 hover:bg&#45;gray&#45;800 focus:outline&#45;none focus:ring&#45;2 focus:ring&#45;offset&#45;2 focus:ring&#45;gray&#45;900"> -->
+        <!--   <span class="sr&#45;only">Pay with Apple Pay</span> -->
+        <!--   <svg class="h&#45;5 w&#45;auto" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 20"> -->
+        <!--     <path d="M9.536 2.579c&#45;.571.675&#45;1.485 1.208&#45;2.4 1.132&#45;.113&#45;.914.334&#45;1.884.858&#45;2.484C8.565.533 9.564.038 10.374 0c.095.951&#45;.276 1.884&#45;.838 2.579zm.829 1.313c&#45;1.324&#45;.077&#45;2.457.751&#45;3.085.751&#45;.638 0&#45;1.6&#45;.713&#45;2.647&#45;.694&#45;1.362.019&#45;2.628.79&#45;3.323 2.017&#45;1.429 2.455&#45;.372 6.09 1.009 8.087.676.99 1.485 2.075 2.552 2.036 1.009&#45;.038 1.409&#45;.656 2.628&#45;.656 1.228 0 1.58.656 2.647.637 1.104&#45;.019 1.8&#45;.99 2.475&#45;1.979.771&#45;1.122 1.086&#45;2.217 1.105&#45;2.274&#45;.02&#45;.019&#45;2.133&#45;.828&#45;2.152&#45;3.263&#45;.02&#45;2.036 1.666&#45;3.007 1.742&#45;3.064&#45;.952&#45;1.408&#45;2.437&#45;1.56&#45;2.951&#45;1.598zm7.645&#45;2.76v14.834h2.305v&#45;5.072h3.19c2.913 0 4.96&#45;1.998 4.96&#45;4.89 0&#45;2.893&#45;2.01&#45;4.872&#45;4.885&#45;4.872h&#45;5.57zm2.305 1.941h2.656c2 0 3.142 1.066 3.142 2.94 0 1.875&#45;1.142 2.95&#45;3.151 2.95h&#45;2.647v&#45;5.89zM32.673 16.08c1.448 0 2.79&#45;.733 3.4&#45;1.893h.047v1.779h2.133V8.582c0&#45;2.14&#45;1.714&#45;3.52&#45;4.351&#45;3.52&#45;2.447 0&#45;4.256 1.399&#45;4.323 3.32h2.076c.171&#45;.913 1.018&#45;1.512 2.18&#45;1.512 1.41 0 2.2.656 2.2 1.865v.818l&#45;2.876.171c&#45;2.675.162&#45;4.123 1.256&#45;4.123 3.159 0 1.922 1.495 3.197 3.637 3.197zm.62&#45;1.76c&#45;1.229 0&#45;2.01&#45;.59&#45;2.01&#45;1.494 0&#45;.933.752&#45;1.475 2.19&#45;1.56l2.562&#45;.162v.837c0 1.39&#45;1.181 2.379&#45;2.743 2.379zM41.1 20c2.247 0 3.304&#45;.856 4.227&#45;3.454l4.047&#45;11.341h&#45;2.342l&#45;2.714 8.763h&#45;.047l&#45;2.714&#45;8.763h&#45;2.409l3.904 10.799&#45;.21.656c&#45;.352 1.114&#45;.923 1.542&#45;1.942 1.542&#45;.18 0&#45;.533&#45;.02&#45;.676&#45;.038v1.779c.133.038.705.057.876.057z" /> -->
+        <!--   </svg> -->
+        <!-- </button> -->
+
+        <!-- Divider -->
+        <!-- <div class="relative mt&#45;8"> -->
+        <!--   <div class="absolute inset&#45;0 flex items&#45;center" aria&#45;hidden="true"> -->
+        <!--     <div class="w&#45;full border&#45;t border&#45;gray&#45;200"></div> -->
+        <!--   </div> -->
+        <!--   <div class="relative flex justify&#45;center"> -->
+        <!--     <span class="px&#45;4 bg&#45;white text&#45;sm font&#45;medium text&#45;gray&#45;500"> -->
+        <!--       or -->
+        <!--     </span> -->
+        <!--   </div> -->
+        <!-- </div> -->
+
+        <form id="payment-form" class="mt-6" data-secret="{{ clientSecret }}">
+          <div class="text-4xl font-extrabold tracking-tight text-gray-900 mb-8">Billing Details</div>
+          <div class="grid grid-cols-12 gap-y-6 gap-x-4">
+            <div class="col-span-full">
+              <div id="payment-element">
+                <!-- Elements will create input elements here -->
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" data-accent-color-btn class="w-full mt-6 bg-accent-color border rounded-md shadow-sm py-4 px-4 text-sm font-medium text-white hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-color">Pay {{ formatCurrency 'en-US' orderTotal }}</button>
+
+          <p id="payment-message" class="flex justify-center text-sm font-medium text-gray-500 mt-6">
+            <!-- Heroicon name: solid/lock-closed -->
+            <svg class="w-5 h-5 text-gray-400 mr-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+            Payment details stored securely
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // ==========================================================================
+  // Setup the Stripe Payment Element
+  // ==========================================================================
+  const stripe = Stripe("{{ stripePublishableKey }}", {
+    betas: ['payment_element_beta_1']
+  });
+
+  const elements = stripe.elements();
+  const paymentElement = elements.create("payment", {
+    clientSecret: "{{ clientSecret }}",
+    appearance: {
+      rules: {
+        ".Label, .Tab": {
+          fontWeight: '500',
+          fontSize: '0.875rem',
+          lineHeight: '1.25rem'
+        },
+        ".Input, .Tab": {
+          borderRadius: '0.25rem'
+        },
+        ".Tab": {
+          padding: "12px 12px"
+        },
+        ".Tab--selected, .Tab:hover": {
+        },
+        ".TabLabel": {
+        },
+        ".Input": {
+          borderRadius: "0.25rem"
+        },
+        ".Input::placeholder": {
+          color: "#ccc"
+        },
+        ".Input:focus": {
+          outline: "none",
+          border: "1px solid #111"
+        }
+      }
+    }
+  });
+
+  paymentElement.mount("#payment-element");
+  const form = document.getElementById('payment-form');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    stripe.confirmPayment({
+      element: paymentElement,
+      confirmParams: {
+        return_url: "{{ returnURL }}"
+      }
+    }).then(function(result) {
+      if (result.error) {
+        var paymentMessage = document.getElementById("payment-message");
+        paymentMessage.classList.add("text-red-400");
+        paymentMessage.innerHTML = `
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+           </svg>
+          ${result.error.message}
+        `
+      }
+    });
+  });
+</script>

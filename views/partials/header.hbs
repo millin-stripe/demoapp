@@ -1,0 +1,100 @@
+<header class="relative bg-white">
+  {{#with (demoConfig)}}
+  {{#if pages.global.banner.show}}
+  <p class="bg-brand-color h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+    {{pages.global.banner.text}}
+  </p>
+  {{/if}}
+  {{/with}}
+
+  <nav aria-label="Top" class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+    <div>
+      <div class="h-16 flex items-center">
+        <!-- Mobile menu toggle, controls the 'mobileMenuOpen' state. -->
+        <button type="button" class="bg-white p-2 rounded-md text-gray-400 lg:hidden">
+          <span class="sr-only">Open menu</span>
+          <!-- Heroicon name: outline/menu -->
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        <!-- Logo -->
+        <div class="ml-4 flex lg:ml-0">
+          <a href="/">
+            {{#with (demoConfig)}}
+            <span class="sr-only">Logo</span>
+            <img class="h-8 w-auto" src="{{branding.logo}}" alt="">
+            {{/with}}
+          </a>
+        </div>
+
+        <!-- Flyout menus -->
+        <div class="hidden lg:ml-8 lg:block lg:self-stretch">
+          <div class="h-full flex space-x-8">
+            <a href="/products" class="flex items-center text-sm font-medium text-gray-700 hover:underline">Products</a>
+            <div class="flex items-center text-sm font-medium text-gray-700 cursor-default">Resources</div>
+            <div class="flex items-center text-sm font-medium text-gray-700 cursor-default">Company</div>
+          </div>
+        </div>
+
+        <div class="ml-auto flex items-center">
+          {{#if session.customerId}}
+          <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+            <a href="/account" class="text-sm font-medium text-gray-700 hover:text-accent-color">Account</a>
+            <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
+            <form class="space-y-6" action="/signout" method="POST">
+              <button type="submit" class="text-sm font-medium text-gray-700 hover:text-accent-color">Sign out</button>
+            </form>
+          </div>
+          {{else}}
+          <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+            <a href="/signin" class="text-sm font-medium text-gray-700 hover:underline">Sign in</a>
+            <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
+            <a href="/signup" class="text-sm font-medium text-gray-700 hover:underline">Create account</a>
+          </div>
+          {{/if}}
+
+          <!-- Search -->
+          <div class="flex lg:ml-6">
+            <div class="p-2 text-gray-400">
+              <span class="sr-only">Search</span>
+              <!-- Heroicon name: outline/search -->
+              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Cart -->
+          <div class="ml-4 flow-root lg:ml-6">
+            <a href="/cart" class="group -m-2 p-2 flex items-center">
+              <!-- Heroicon name: outline/shopping-bag -->
+              <svg class="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <span id="number-of-items-in-cart" class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-900">0</span>
+              <span class="sr-only">items in cart, view bag</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  var numberOfItemsInCartDisplay = document.getElementById('number-of-items-in-cart');
+
+  if (sessionStorage.getItem('cart')) {
+    var numberOfItemsInCartSession = Object.entries(JSON.parse(sessionStorage.getItem('cart'))).length;
+  } else {
+    var numberOfItemsInCartSession = 0;
+  }
+
+  if (numberOfItemsInCartSession < 1) {
+    numberOfItemsInCartDisplay.innerHTML = '0';
+  } else {
+    numberOfItemsInCartDisplay.innerHTML = numberOfItemsInCartSession ;
+  }
+</script>
